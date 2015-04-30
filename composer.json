@@ -1,5 +1,6 @@
 {
 	"name": "bleicker/translation",
+	"type": "library",
 	"require": {
 		"doctrine/collections": "~1.2",
 		"bleicker/exception": "~1.0"

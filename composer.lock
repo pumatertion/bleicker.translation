@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "af307a3bc748f06c418dda1536064e96",
+    "hash": "77c059af0e4eaf9df29a12f93e4f63fe",
     "packages": [
         {
             "name": "bleicker/exception",
