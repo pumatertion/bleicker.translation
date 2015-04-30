@@ -166,5 +166,4 @@ class TranslateAbleTest extends UnitTestCase {
 		$this->assertFalse($object->hasTranslationsFor('bar', 'en'));
 		$this->assertFalse($object->hasTranslationsFor('foo', 'en', 'GB'));
 	}
-
 }
