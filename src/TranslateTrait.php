@@ -22,11 +22,13 @@ trait TranslateTrait {
 
 	/**
 	 * @param TranslationInterface $translation
+	 * @param string $propertyName
 	 * @return $this
 	 * @throws TranslationAlreadyExistsException
 	 * @throws PropertyDoesNotExistsException
 	 */
-	public function addTranslation(TranslationInterface $translation) {
+	public function addTranslation(TranslationInterface $translation, $propertyName) {
+		$translation->setPropertyName($propertyName);
 		if (!property_exists(static::class, $translation->getPropertyName())) {
 			throw new PropertyDoesNotExistsException('The property (' . static::class . '::$' . $translation->getPropertyName() . ') you tried to translate does not exists', 1430390035);
 		}

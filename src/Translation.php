@@ -30,13 +30,11 @@ class Translation implements TranslationInterface {
 	protected $value;
 
 	/**
-	 * @param $propertyName
 	 * @param $value
 	 * @param $language
 	 * @param $region
 	 */
-	public function __construct($propertyName, $value, $language, $region) {
-		$this->setPropertyName($propertyName);
+	public function __construct($value, $language, $region) {
 		$this->setValue($value);
 		$this->setLanguage($language);
 		$this->setRegion($region);

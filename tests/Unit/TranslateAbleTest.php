@@ -19,8 +19,8 @@ class TranslateAbleTest extends UnitTestCase {
 	 */
 	public function addTranslationTest() {
 		$object = new TranslateAble();
-		$translation = new Translation('propertyName', 'value', 'de', 'DE');
-		$object->addTranslation($translation);
+		$translation = new Translation('value', 'de', 'DE');
+		$object->addTranslation($translation, 'propertyName');
 		$this->assertInstanceOf(TranslationInterface::class, $object->getTranslations()->first());
 		$this->assertEquals(1, $object->getTranslations()->count());
 	}
@@ -31,10 +31,10 @@ class TranslateAbleTest extends UnitTestCase {
 	 */
 	public function addAlreadyExistingTranslationTest() {
 		$object = new TranslateAble();
-		$translation1 = new Translation('propertyName', 'foo', 'de', 'DE');
-		$translation2 = new Translation('propertyName', 'foo', 'de', 'DE');
-		$object->addTranslation($translation1);
-		$object->addTranslation($translation2);
+		$translation1 = new Translation('foo', 'de', 'DE');
+		$translation2 = new Translation('foo', 'de', 'DE');
+		$object->addTranslation($translation1, 'propertyName');
+		$object->addTranslation($translation2, 'propertyName');
 	}
 
 	/**
@@ -43,8 +43,8 @@ class TranslateAbleTest extends UnitTestCase {
 	 */
 	public function addTranslationForNotExistingPropertyTest() {
 		$object = new TranslateAble();
-		$translation1 = new Translation('baz', 'foo', 'de', 'DE');
-		$object->addTranslation($translation1);
+		$translation1 = new Translation('foo', 'de', 'DE');
+		$object->addTranslation($translation1, 'baz');
 	}
 
 	/**
@@ -52,10 +52,10 @@ class TranslateAbleTest extends UnitTestCase {
 	 */
 	public function addMultipleTranslationTest() {
 		$object = new TranslateAble();
-		$translation1 = new Translation('propertyName1', 'foo', 'en', 'EN');
-		$translation2 = new Translation('propertyName2', 'foo', 'en', 'EN');
-		$translation3 = new Translation('propertyName1', 'foo', 'en', 'US');
-		$object->addTranslation($translation1)->addTranslation($translation1)->addTranslation($translation2)->addTranslation($translation3);
+		$translation1 = new Translation('foo', 'en', 'EN');
+		$translation2 = new Translation('foo', 'en', 'EN');
+		$translation3 = new Translation('foo', 'en', 'US');
+		$object->addTranslation($translation1, 'propertyName1')->addTranslation($translation1, 'propertyName1')->addTranslation($translation2, 'propertyName2')->addTranslation($translation3, 'propertyName1');
 		$this->assertEquals(3, $object->getTranslations()->count());
 	}
 
@@ -64,9 +64,9 @@ class TranslateAbleTest extends UnitTestCase {
 	 */
 	public function removeTranslationTest() {
 		$object = new TranslateAble();
-		$translation1 = new Translation('propertyName', 'value', 'en', 'EN');
-		$translation2 = new Translation('propertyName', 'value', 'en', 'US');
-		$object->addTranslation($translation1)->addTranslation($translation2)->removeTranslation($translation1);
+		$translation1 = new Translation('value', 'en', 'EN');
+		$translation2 = new Translation('value', 'en', 'US');
+		$object->addTranslation($translation1, 'propertyName')->addTranslation($translation2, 'propertyName')->removeTranslation($translation1, 'propertyName');
 		$this->assertEquals(1, $object->getTranslations()->count());
 	}
 
@@ -75,17 +75,17 @@ class TranslateAbleTest extends UnitTestCase {
 	 */
 	public function filterTest() {
 		$object = new TranslateAble();
-		$translation1 = new Translation('foo', 'value1', 'en', 'EN');
-		$translation2 = new Translation('foo', 'value1', 'en', 'US');
-		$translation3 = new Translation('foo', 'value2', 'de', 'DE');
-		$translation4 = new Translation('foo', 'value3', 'de', 'CH');
-		$translation5 = new Translation('bar', 'value4', 'de', 'AU');
+		$translation1 = new Translation('value1', 'en', 'EN');
+		$translation2 = new Translation('value1', 'en', 'US');
+		$translation3 = new Translation('value2', 'de', 'DE');
+		$translation4 = new Translation('value3', 'de', 'CH');
+		$translation5 = new Translation('value4', 'de', 'AU');
 
-		$object->addTranslation($translation1)
-			->addTranslation($translation2)
-			->addTranslation($translation3)
-			->addTranslation($translation4)
-			->addTranslation($translation5);
+		$object->addTranslation($translation1, 'foo')
+			->addTranslation($translation2, 'foo')
+			->addTranslation($translation3, 'foo')
+			->addTranslation($translation4, 'foo')
+			->addTranslation($translation5, 'bar');
 
 		$filteredByProperty = $object->filterCollection('propertyName', 'foo', $object->getTranslations());
 		$this->assertEquals(4, $filteredByProperty->count());
@@ -119,17 +119,17 @@ class TranslateAbleTest extends UnitTestCase {
 	 */
 	public function filterByTest() {
 		$object = new TranslateAble();
-		$translation1 = new Translation('foo', 'value1', 'en', 'EN');
-		$translation2 = new Translation('foo', 'value1', 'en', 'US');
-		$translation3 = new Translation('foo', 'value2', 'de', 'DE');
-		$translation4 = new Translation('foo', 'value3', 'de', 'CH');
-		$translation5 = new Translation('bar', 'value4', 'de', 'AU');
+		$translation1 = new Translation('value1', 'en', 'EN');
+		$translation2 = new Translation('value1', 'en', 'US');
+		$translation3 = new Translation('value2', 'de', 'DE');
+		$translation4 = new Translation('value3', 'de', 'CH');
+		$translation5 = new Translation('value4', 'de', 'AU');
 
-		$object->addTranslation($translation1)
-			->addTranslation($translation2)
-			->addTranslation($translation3)
-			->addTranslation($translation4)
-			->addTranslation($translation5);
+		$object->addTranslation($translation1, 'foo')
+			->addTranslation($translation2, 'foo')
+			->addTranslation($translation3, 'foo')
+			->addTranslation($translation4, 'foo')
+			->addTranslation($translation5, 'bar');
 
 		$this->assertEquals(4, $object->filterTranslationsFor('foo')->count());
 		$this->assertEquals(2, $object->filterTranslationsFor('foo', 'en')->count());
@@ -146,17 +146,17 @@ class TranslateAbleTest extends UnitTestCase {
 	 */
 	public function hasTranslationTest() {
 		$object = new TranslateAble();
-		$translation1 = new Translation('foo', 'value1', 'en', 'EN');
-		$translation2 = new Translation('foo', 'value1', 'en', 'US');
-		$translation3 = new Translation('foo', 'value2', 'de', 'DE');
-		$translation4 = new Translation('foo', 'value3', 'de', 'CH');
-		$translation5 = new Translation('bar', 'value4', 'de', 'AU');
+		$translation1 = new Translation('value1', 'en', 'EN');
+		$translation2 = new Translation('value1', 'en', 'US');
+		$translation3 = new Translation('value2', 'de', 'DE');
+		$translation4 = new Translation('value3', 'de', 'CH');
+		$translation5 = new Translation('value4', 'de', 'AU');
 
-		$object->addTranslation($translation1)
-			->addTranslation($translation2)
-			->addTranslation($translation3)
-			->addTranslation($translation4)
-			->addTranslation($translation5);
+		$object->addTranslation($translation1, 'foo')
+			->addTranslation($translation2, 'foo')
+			->addTranslation($translation3, 'foo')
+			->addTranslation($translation4, 'foo')
+			->addTranslation($translation5, 'bar');
 
 		$this->assertTrue($object->hasTranslationsFor('foo'));
 		$this->assertTrue($object->hasTranslationsFor('foo', 'en'));

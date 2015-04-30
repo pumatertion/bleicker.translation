@@ -29,11 +29,12 @@ interface TranslateInterface {
 
 	/**
 	 * @param TranslationInterface $translation
+	 * @param string $propertyName
 	 * @return $this
 	 * @throws TranslationAlreadyExistsException
 	 * @throws PropertyDoesNotExistsException
 	 */
-	public function addTranslation(TranslationInterface $translation);
+	public function addTranslation(TranslationInterface $translation, $propertyName);
 
 	/**
 	 * @param string $value
