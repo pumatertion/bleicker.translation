@@ -17,6 +17,11 @@ class Locales extends Container implements LocalesInterface {
 	public static $storage = [];
 
 	/**
+	 * @var LocaleInterface
+	 */
+	public static $systemLocale;
+
+	/**
 	 * @param string $alias
 	 * @return LocaleInterface
 	 */
@@ -39,5 +44,21 @@ class Locales extends Container implements LocalesInterface {
 	public static function getDefault() {
 		$storage = static::storage();
 		return array_shift($storage);
+	}
+
+	/**
+	 * @return LocaleInterface
+	 */
+	public static function getSystemLocale() {
+		return static::$systemLocale;
+	}
+
+	/**
+	 * @param LocaleInterface $locale
+	 * @return static
+	 */
+	public static function setSystemLocale(LocaleInterface $locale) {
+		static::$systemLocale = $locale;
+		return new static;
 	}
 }
