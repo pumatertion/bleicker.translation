@@ -5,6 +5,7 @@ namespace Bleicker\Translation;
 use Bleicker\Translation\Exception\PropertyDoesNotExistsException;
 use Bleicker\Translation\Exception\TranslationAlreadyExistsException;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Class TranslateTrait
@@ -22,26 +23,12 @@ trait TranslateTrait {
 
 	/**
 	 * @param TranslationInterface $translation
-	 * @param string $propertyName
 	 * @return $this
-	 * @throws TranslationAlreadyExistsException
-	 * @throws PropertyDoesNotExistsException
 	 */
-	public function addTranslation(TranslationInterface $translation, $propertyName) {
-		$translation->setPropertyName($propertyName);
-		if (!property_exists(static::class, $translation->getPropertyName())) {
-			throw new PropertyDoesNotExistsException('The property (' . static::class . '::$' . $translation->getPropertyName() . ') you tried to translate does not exists', 1430390035);
+	public function removeTranslation(TranslationInterface $translation) {
+		if ($this->hasTranslation($translation)) {
+			$this->translations->removeElement($this->getTranslation($translation));
 		}
-		if ($this->getTranslations()->contains($translation)) {
-			return $this;
-		}
-		$hasLocaleFilter = function (TranslationInterface $existingTranslation) use ($translation) {
-			return $translation->getLocaleString() === $existingTranslation->getLocaleString() && $translation->getPropertyName() === $existingTranslation->getPropertyName();
-		};
-		if ($this->getTranslations()->filter($hasLocaleFilter)->count() > 0) {
-			throw new TranslationAlreadyExistsException('Translation already exists for ' . static::class . '::$' . $translation->getPropertyName(), 1430390036);
-		}
-		$this->getTranslations()->add($translation);
 		return $this;
 	}
 
@@ -49,48 +36,47 @@ trait TranslateTrait {
 	 * @param TranslationInterface $translation
 	 * @return $this
 	 * @throws TranslationAlreadyExistsException
+	 * @throws PropertyDoesNotExistsException
 	 */
-	public function removeTranslation(TranslationInterface $translation) {
-		if ($this->getTranslations()->contains($translation)) {
-			$this->getTranslations()->removeElement($translation);
+	public function addTranslation(TranslationInterface $translation) {
+		if ($this->hasTranslation($translation)) {
+			throw new TranslationAlreadyExistsException('Translation "' . (string)$translation . '" already exists', 1431005644);
 		}
+		$this->translations->add($translation);
 		return $this;
 	}
 
 	/**
-	 * @param string $propertyName
-	 * @param string $language
-	 * @param string $region
-	 * @return Collection
-	 */
-	public function filterTranslationsFor($propertyName = NULL, $language = NULL, $region = NULL) {
-		$translations = $this->getTranslations();
-		$translations = $propertyName === NULL ? $translations : $this->filterCollection('propertyName', $propertyName, $translations);
-		$translations = $language === NULL ? $translations : $this->filterCollection('language', $language, $translations);
-		$translations = $region === NULL ? $translations : $this->filterCollection('region', $region, $translations);
-		return $translations;
-	}
-
-	/**
-	 * @param string $propertyName
-	 * @param string $language
-	 * @param string $region
+	 * @param TranslationInterface $translation
 	 * @return boolean
 	 */
-	public function hasTranslationsFor($propertyName = NULL, $language = NULL, $region = NULL) {
-		return $this->filterTranslationsFor($propertyName, $language, $region)->count() > 0;
+	public function hasTranslation(TranslationInterface $translation) {
+		$expr = Criteria::expr();
+		$criteria = Criteria::create();
+		$criteria->andWhere(
+			$expr->andX(
+				$expr->eq('propertyName', $translation->getPropertyName()),
+				$expr->eq('locale', $translation->getLocale())
+			)
+		);
+		$matchingTranslations = $this->translations->matching($criteria);
+		return (boolean)$matchingTranslations->count();
 	}
 
 	/**
-	 * @param string $value
-	 * @param string $propertyName
-	 * @param Collection $collection
-	 * @return Collection
+	 * @param TranslationInterface $translation
+	 * @return TranslationInterface
 	 */
-	public function filterCollection($propertyName, $value, Collection $collection) {
-		return $collection->filter(function (TranslationInterface $translation) use ($value, $propertyName) {
-			$methodName = 'get' . ucfirst($propertyName);
-			return $translation->$methodName() === $value;
-		});
+	public function getTranslation(TranslationInterface $translation) {
+		$expr = Criteria::expr();
+		$criteria = Criteria::create();
+		$criteria->andWhere(
+			$expr->andX(
+				$expr->eq('propertyName', $translation->getPropertyName()),
+				$expr->eq('locale', $translation->getLocale())
+			)
+		);
+		$matchingTranslations = $this->translations->matching($criteria);
+		return $matchingTranslations->first();
 	}
 }
