@@ -40,4 +40,13 @@ class LocaleTest extends UnitTestCase {
 		Locale::register('German', 'de', 'DE');
 		Locale::register('German', 'en', 'US');
 	}
+
+	/**
+	 * @test
+	 */
+	public function defaultTest() {
+		Locale::register('German', 'de', 'DE');
+		Locale::register('English', 'en', 'EN');
+		$this->assertEquals('de_DE', (string)Locales::getDefault());
+	}
 }

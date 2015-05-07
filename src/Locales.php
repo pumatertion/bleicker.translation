@@ -32,4 +32,12 @@ class Locales extends Container implements LocalesInterface {
 	public static function add($alias, $data) {
 		return parent::add($alias, $data);
 	}
+
+	/**
+	 * @return LocaleInterface
+	 */
+	public static function getDefault() {
+		$storage = static::storage();
+		return array_shift($storage);
+	}
 }
