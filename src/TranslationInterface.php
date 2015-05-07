@@ -1,9 +1,8 @@
 <?php
-
 namespace Bleicker\Translation;
 
 /**
- * Class TranslationInterface
+ * Class Translation
  *
  * @package Bleicker\Translation
  */
@@ -12,49 +11,20 @@ interface TranslationInterface {
 	/**
 	 * @return string
 	 */
-	public function getPropertyName();
-
-	/**
-	 * @param string $propertyName
-	 * @return $this
-	 */
-	public function setPropertyName($propertyName);
-
-	/**
-	 * @return string
-	 */
-	public function getLanguage();
-
-	/**
-	 * @param string $language
-	 * @return $this
-	 */
-	public function setLanguage($language);
-
-	/**
-	 * @return string
-	 */
-	public function getRegion();
-
-	/**
-	 * @param string $region
-	 * @return $this
-	 */
-	public function setRegion($region);
-
-	/**
-	 * @param string $value
-	 * @return $this
-	 */
-	public function setValue($value);
-
-	/**
-	 * @return string
-	 */
 	public function getValue();
 
 	/**
+	 * @return LocaleInterface
+	 */
+	public function getLocale();
+
+	/**
 	 * @return string
 	 */
-	public function getLocaleString();
+	public function getPropertyName();
+
+	/**
+	 * @return string
+	 */
+	public function __toString();
 }
