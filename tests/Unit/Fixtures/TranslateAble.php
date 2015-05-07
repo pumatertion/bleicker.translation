@@ -35,5 +35,4 @@ class TranslateAble extends AbstractTranslate {
 	 * @var string
 	 */
 	protected $propertyName2;
-
 }

@@ -15,14 +15,9 @@ class Translation implements TranslationInterface {
 	protected $propertyName;
 
 	/**
-	 * @var string
+	 * @var Locale
 	 */
-	protected $language;
-
-	/**
-	 * @var string
-	 */
-	protected $region;
+	protected $locale;
 
 	/**
 	 * @var string
@@ -30,39 +25,14 @@ class Translation implements TranslationInterface {
 	protected $value;
 
 	/**
-	 * @param $value
-	 * @param $language
-	 * @param $region
-	 */
-	public function __construct($value, $language, $region) {
-		$this->setValue($value);
-		$this->setLanguage($language);
-		$this->setRegion($region);
-	}
-
-	/**
-	 * @param string $language
-	 * @return $this
-	 */
-	public function setLanguage($language) {
-		$this->language = strtolower($language);
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLanguage() {
-		return $this->language;
-	}
-
-	/**
 	 * @param string $propertyName
-	 * @return $this
+	 * @param LocaleInterface $locale
+	 * @param string $value
 	 */
-	public function setPropertyName($propertyName) {
+	public function __construct($propertyName, LocaleInterface $locale, $value = NULL) {
 		$this->propertyName = $propertyName;
-		return $this;
+		$this->locale = $locale;
+		$this->value = $value;
 	}
 
 	/**
@@ -73,31 +43,6 @@ class Translation implements TranslationInterface {
 	}
 
 	/**
-	 * @param string $region
-	 * @return $this
-	 */
-	public function setRegion($region) {
-		$this->region = strtoupper($region);
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRegion() {
-		return $this->region;
-	}
-
-	/**
-	 * @param string $value
-	 * @return $this
-	 */
-	public function setValue($value) {
-		$this->value = $value;
-		return $this;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getValue() {
@@ -105,9 +50,16 @@ class Translation implements TranslationInterface {
 	}
 
 	/**
+	 * @return LocaleInterface
+	 */
+	public function getLocale() {
+		return $this->locale;
+	}
+
+	/**
 	 * @return string
 	 */
-	public function getLocaleString() {
-		return $this->getLanguage() . '-' . $this->getRegion();
+	public function __toString() {
+		return $this->getPropertyName() . LocaleInterface::LOCALE_SEPARATOR . (string)$this->getLocale();
 	}
 }

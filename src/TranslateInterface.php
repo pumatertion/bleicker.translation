@@ -3,7 +3,6 @@ namespace Bleicker\Translation;
 
 use Bleicker\Translation\Exception\PropertyDoesNotExistsException;
 use Bleicker\Translation\Exception\TranslationAlreadyExistsException;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * Class AbstractTranslate
@@ -15,45 +14,26 @@ interface TranslateInterface {
 	/**
 	 * @param TranslationInterface $translation
 	 * @return $this
-	 * @throws TranslationAlreadyExistsException
 	 */
 	public function removeTranslation(TranslationInterface $translation);
 
 	/**
-	 * @param string $propertyName
-	 * @param string $language
-	 * @param string $region
-	 * @return boolean
-	 */
-	public function hasTranslationsFor($propertyName = NULL, $language = NULL, $region = NULL);
-
-	/**
 	 * @param TranslationInterface $translation
-	 * @param string $propertyName
 	 * @return $this
 	 * @throws TranslationAlreadyExistsException
 	 * @throws PropertyDoesNotExistsException
 	 */
-	public function addTranslation(TranslationInterface $translation, $propertyName);
+	public function addTranslation(TranslationInterface $translation);
 
 	/**
-	 * @param string $value
-	 * @param string $propertyName
-	 * @param Collection $collection
-	 * @return Collection
+	 * @param TranslationInterface $translation
+	 * @return boolean
 	 */
-	public function filterCollection($propertyName, $value, Collection $collection);
+	public function hasTranslation(TranslationInterface $translation);
 
 	/**
-	 * @return Collection
+	 * @param TranslationInterface $translation
+	 * @return TranslationInterface
 	 */
-	public function getTranslations();
-
-	/**
-	 * @param string $propertyName
-	 * @param string $language
-	 * @param string $region
-	 * @return Collection
-	 */
-	public function filterTranslationsFor($propertyName = NULL, $language = NULL, $region = NULL);
+	public function getTranslation(TranslationInterface $translation);
 }
