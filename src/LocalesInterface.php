@@ -22,6 +22,11 @@ interface LocalesInterface {
 	public static function get($alias);
 
 	/**
+	 * @return LocaleInterface
+	 */
+	public static function getDefault();
+
+	/**
 	 * @param string $alias
 	 * @return boolean
 	 */
