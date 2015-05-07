@@ -47,4 +47,15 @@ interface LocalesInterface {
 	 * @return array
 	 */
 	public static function storage();
+
+	/**
+	 * @return LocaleInterface
+	 */
+	public static function getSystemLocale();
+
+	/**
+	 * @param LocaleInterface $locale
+	 * @return static
+	 */
+	public static function setSystemLocale(LocaleInterface $locale);
 }
