@@ -37,4 +37,9 @@ interface LocalesInterface {
 	 * @return static
 	 */
 	public static function remove($alias);
+
+	/**
+	 * @return array
+	 */
+	public static function storage();
 }
