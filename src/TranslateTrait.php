@@ -3,8 +3,8 @@
 namespace Bleicker\Translation;
 
 use Bleicker\Translation\Exception\TranslationAlreadyExistsException;
+use Closure;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * Class TranslateTrait
@@ -49,16 +49,7 @@ trait TranslateTrait {
 	 * @return boolean
 	 */
 	public function hasTranslation(TranslationInterface $translation) {
-		$expr = Criteria::expr();
-		$criteria = Criteria::create();
-		$criteria->andWhere(
-			$expr->andX(
-				$expr->eq('propertyName', $translation->getPropertyName()),
-				$expr->eq('locale', $translation->getLocale())
-			)
-		);
-		$matchingTranslations = $this->translations->matching($criteria);
-		return (boolean)$matchingTranslations->count();
+		return (boolean)$this->translations->filter($this->getTranslationMatchingFilter($translation))->count();
 	}
 
 	/**
@@ -66,15 +57,16 @@ trait TranslateTrait {
 	 * @return TranslationInterface
 	 */
 	public function getTranslation(TranslationInterface $translation) {
-		$expr = Criteria::expr();
-		$criteria = Criteria::create();
-		$criteria->andWhere(
-			$expr->andX(
-				$expr->eq('propertyName', $translation->getPropertyName()),
-				$expr->eq('locale', $translation->getLocale())
-			)
-		);
-		$matchingTranslations = $this->translations->matching($criteria);
-		return $matchingTranslations->first();
+		return $this->translations->filter($this->getTranslationMatchingFilter($translation))->first();
+	}
+
+	/**
+	 * @param TranslationInterface $translation
+	 * @return Closure
+	 */
+	protected function getTranslationMatchingFilter(TranslationInterface $translation) {
+		return function (TranslationInterface $existingTranslation) use ($translation) {
+			return (string)$existingTranslation === (string)$translation;
+		};
 	}
 }
