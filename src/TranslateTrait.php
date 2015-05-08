@@ -2,7 +2,6 @@
 
 namespace Bleicker\Translation;
 
-use Bleicker\Translation\Exception\PropertyDoesNotExistsException;
 use Bleicker\Translation\Exception\TranslationAlreadyExistsException;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -36,7 +35,6 @@ trait TranslateTrait {
 	 * @param TranslationInterface $translation
 	 * @return $this
 	 * @throws TranslationAlreadyExistsException
-	 * @throws PropertyDoesNotExistsException
 	 */
 	public function addTranslation(TranslationInterface $translation) {
 		if ($this->hasTranslation($translation)) {
