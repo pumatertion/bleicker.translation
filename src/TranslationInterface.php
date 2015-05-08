@@ -14,6 +14,12 @@ interface TranslationInterface {
 	public function getValue();
 
 	/**
+	 * @param string $value
+	 * @return $this
+	 */
+	public function setValue($value = NULL);
+
+	/**
 	 * @return LocaleInterface
 	 */
 	public function getLocale();

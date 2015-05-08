@@ -50,6 +50,15 @@ class Translation implements TranslationInterface {
 	}
 
 	/**
+	 * @param string $value
+	 * @return $this
+	 */
+	public function setValue($value = NULL) {
+		$this->value = $value;
+		return $this;
+	}
+
+	/**
 	 * @return LocaleInterface
 	 */
 	public function getLocale() {
