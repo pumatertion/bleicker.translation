@@ -3,6 +3,7 @@ namespace Bleicker\Translation;
 
 use Bleicker\Translation\Exception\PropertyDoesNotExistsException;
 use Bleicker\Translation\Exception\TranslationAlreadyExistsException;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Class AbstractTranslate
@@ -10,6 +11,11 @@ use Bleicker\Translation\Exception\TranslationAlreadyExistsException;
  * @package Bleicker\Translation
  */
 interface TranslateInterface {
+
+	/**
+	 * @return Collection
+	 */
+	public function getTranslations();
 
 	/**
 	 * @param TranslationInterface $translation
