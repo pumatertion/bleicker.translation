@@ -62,7 +62,7 @@ class Locale implements LocaleInterface {
 		$reflection = new ReflectionClass(static::class);
 		$instance = $reflection->newInstanceArgs(array_slice(func_get_args(), 1));
 		/** @var LocalesInterface $locales */
-		$locales = ObjectManager::isRegistered(LocalesInterface::class) ? ObjectManager::get(LocalesInterface::class) : ObjectManager::get(Locales::class);
+		$locales = ObjectManager::get(LocalesInterface::class, Locales::class);
 		$locales->add($alias, $instance);
 		return $instance;
 	}

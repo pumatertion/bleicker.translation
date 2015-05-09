@@ -2,14 +2,14 @@
 
 namespace Bleicker\Translation;
 
-use Bleicker\ObjectManager\Container;
+use Bleicker\Container\AbstractContainer;
 
 /**
  * Class Locales
  *
  * @package Bleicker\Translation
  */
-class Locales extends Container implements LocalesInterface {
+class Locales extends AbstractContainer implements LocalesInterface {
 
 	/**
 	 * @var array
