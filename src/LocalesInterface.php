@@ -58,4 +58,9 @@ interface LocalesInterface {
 	 * @return static
 	 */
 	public static function setSystemLocale(LocaleInterface $locale);
+
+	/**
+	 * @return boolean
+	 */
+	public static function isLocalizationMode();
 }
