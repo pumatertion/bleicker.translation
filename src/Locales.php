@@ -61,4 +61,11 @@ class Locales extends Container implements LocalesInterface {
 		static::$systemLocale = $locale;
 		return new static;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public static function isLocalizationMode() {
+		return (string)static::getSystemLocale() !== (string)static::getDefault();
+	}
 }
