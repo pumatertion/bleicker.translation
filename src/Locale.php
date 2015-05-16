@@ -48,6 +48,13 @@ class Locale implements LocaleInterface {
 	/**
 	 * @return string
 	 */
+	public function getLocaleString() {
+		return $this->getLanguage() . static::LOCALE_SEPARATOR . $this->getRegion();
+	}
+
+	/**
+	 * @return string
+	 */
 	public function __toString() {
 		return $this->getLanguage() . static::LOCALE_SEPARATOR . $this->getRegion();
 	}
