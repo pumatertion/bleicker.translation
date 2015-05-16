@@ -23,6 +23,11 @@ interface LocaleInterface {
 	/**
 	 * @return string
 	 */
+	public function getLocaleString();
+
+	/**
+	 * @return string
+	 */
 	public function __toString();
 
 	/**
